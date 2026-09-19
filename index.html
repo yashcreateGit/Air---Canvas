@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Air Canvas Pro - Live Web&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: #111;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100vh;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-family: sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#container {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 960px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 540px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-radius: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>overflow: hidden;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 10px 30px rgba(0,0,0,0.7);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>video {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>object-fit: cover;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: scaleX(-1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>canvas {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>transform: scaleX(-1);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#palette {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>left: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 60px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>z-index: 10;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(0,0,0,0.5);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.color-btn {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>flex: 1;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border: 2px solid #222;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>justify-content: center;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-weight: bold;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #000;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.active { border: 4px solid #fff; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>#info {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #aaa;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin-top: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"&gt;&lt;/script&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="container"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;video id="input_video" autoplay playsinline&gt;&lt;/video&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;canvas id="output_canvas" width="960" height="540"&gt;&lt;/canvas&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="palette"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn active" style="background:#ff0044;" data-color="#ff0044"&gt;Red&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn" style="background:#00ff88;" data-color="#00ff88"&gt;Green&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn" style="background:#00d9ff;" data-color="#00d9ff"&gt;Cyan&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn" style="background:#ffaa00;" data-color="#ffaa00"&gt;Orange&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn" style="background:#ff00ea;" data-color="#ff00ea"&gt;Magenta&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="color-btn" style="background:#ffffff;" data-color="CLEAR"&gt;Clear&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;p id="info"&gt;☝️ Index up = Draw | ✌️ Index + Middle up = Select Color / Hover | 🖐️ 4 Fingers = Eraser&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const video = document.getElementById('input_video');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const canvas = document.getElementById('output_canvas');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const ctx = canvas.getContext('2d');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const paintCanvas = document.createElement('canvas');</p>
+<p class="p1"><span class="Apple-converted-space">    </span>paintCanvas.width = 960;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>paintCanvas.height = 540;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const pCtx = paintCanvas.getContext('2d');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>let currentColor = '#ff0044';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let prevX = 0, prevY = 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.querySelectorAll('.color-btn').forEach(btn =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>btn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if(btn.dataset.color === 'CLEAR') {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>pCtx.clearRect(0, 0, paintCanvas.width, paintCanvas.height);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>document.querySelectorAll('.color-btn').forEach(b =&gt; b.classList.remove('active'));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>btn.classList.add('active');</p>
+<p class="p1"><span class="Apple-converted-space">          </span>currentColor = btn.dataset.color;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>function onResults(results) {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.save();</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.clearRect(0, 0, canvas.width, canvas.height);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.drawImage(paintCanvas, 0, 0, canvas.width, canvas.height);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>if (results.multiHandLandmarks &amp;&amp; results.multiHandLandmarks.length &gt; 0) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const lm = results.multiHandLandmarks[0];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ix = lm[8].x * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const iy = lm[8].y * canvas.height;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const mx = lm[12].x * canvas.width;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const my = lm[12].y * canvas.height;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const indexUp = lm[8].y &lt; lm[6].y;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const middleUp = lm[12].y &lt; lm[10].y;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ringUp = lm[16].y &lt; lm[14].y;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const pinkyUp = lm[20].y &lt; lm[18].y;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 1. Eraser Mode (4 fingers up)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (indexUp &amp;&amp; middleUp &amp;&amp; ringUp &amp;&amp; pinkyUp) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>pCtx.clearRect(ix - 30, iy - 30, 60, 60);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.strokeStyle = '#fff';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.strokeRect(ix - 30, iy - 30, 60, 60);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>prevX = 0; prevY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 2. Hover / Select Mode (Index + Middle)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (indexUp &amp;&amp; middleUp &amp;&amp; !ringUp &amp;&amp; !pinkyUp) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>prevX = 0; prevY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.arc(ix, iy, 10, 0, 2 * Math.PI);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.fillStyle = currentColor;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.fill();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (iy &lt; 60) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const el = document.elementFromPoint(canvas.getBoundingClientRect().right - (ix * (canvas.getBoundingClientRect().width / 960)), canvas.getBoundingClientRect().top + iy);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (el &amp;&amp; el.classList.contains('color-btn')) el.click();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// 3. Draw Mode (Index only)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>else if (indexUp &amp;&amp; !middleUp &amp;&amp; !ringUp &amp;&amp; !pinkyUp) {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.arc(ix, iy, 6, 0, 2 * Math.PI);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.fillStyle = currentColor;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>ctx.fill();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (iy &gt; 60) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (prevX !== 0 &amp;&amp; prevY !== 0) {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.strokeStyle = currentColor;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.lineWidth = 6;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.lineCap = 'round';</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.beginPath();</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.moveTo(prevX, prevY);</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.lineTo(ix, iy);</p>
+<p class="p1"><span class="Apple-converted-space">              </span>pCtx.stroke();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>prevX = ix; prevY = iy;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>prevX = 0; prevY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>prevX = 0; prevY = 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>ctx.restore();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const hands = new Hands({locateFile: (file) =&gt; `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hands.setOptions({maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.7, minTrackingConfidence: 0.7});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>hands.onResults(onResults);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>const camera = new Camera(video, {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>onFrame: async () =&gt; { await hands.send({image: video}); },</p>
+<p class="p1"><span class="Apple-converted-space">      </span>width: 960,</p>
+<p class="p1"><span class="Apple-converted-space">      </span>height: 540</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">    </span>camera.start();</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
