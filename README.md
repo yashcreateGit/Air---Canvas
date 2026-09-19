@@ -26,11 +26,10 @@ An interactive, touchless digital canvas built with Python. Air Canvas Pro uses 
 ### 💻 How to Run Locally
 
 1. Clone the repository:
-    git clone https://github.com/YOUR_USERNAME/air-canvas.git
-    cd air-canvas
+git clone https://github.com/yashcreateGit/Air---Canvas.git
+cd Air---Canvas
 
 2. Install dependencies:
-    pip install opencv-python mediapipe numpy
-
+pip install -r requirements.txt
 3. Run the application:
-    python air_canvas.py
+python air_canvas.py
