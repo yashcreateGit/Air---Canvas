@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Air Canvas Pro - Live Web</title>
+  <style>
+    body {
+      margin: 0;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    #container {
+      position: relative;
+      width: 960px;
+      height: 540px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+    }
+    video {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+    }
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(-1);
+    }
+    #palette {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+    }
+    .color-btn {
+      flex: 1;
+      border: 2px solid #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+    }
+    .active { border: 4px solid #fff; }
+    #info {
+      color: #aaa;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div id="container">
+    <video id="input_video" autoplay playsinline></video>
+    <canvas id="output_canvas" width="960" height="540"></canvas>
+    <div id="palette">
+      <div class="color-btn active" style="background:#ff0044;" data-color="#ff0044">Red</div>
+      <div class="color-btn" style="background:#00ff88;" data-color="#00ff88">Green</div>
+      <div class="color-btn" style="background:#00d9ff;" data-color="#00d9ff">Cyan</div>
+      <div class="color-btn" style="background:#ffaa00;" data-color="#ffaa00">Orange</div>
+      <div class="color-btn" style="background:#ff00ea;" data-color="#ff00ea">Magenta</div>
+      <div class="color-btn" style="background:#ffffff;" data-color="CLEAR">Clear</div>
+    </div>
+  </div>
+  <p id="info">☝️ Index up = Draw | ✌️ Index + Middle up = Select Color / Hover | 🖐️ 4 Fingers = Eraser</p>
+
+  <script>
+    const video = document.getElementById('input_video');
+    const canvas = document.getElementById('output_canvas');
+    const ctx = canvas.getContext('2d');
+    const paintCanvas = document.createElement('canvas');
+    paintCanvas.width = 960;
+    paintCanvas.height = 540;
+    const pCtx = paintCanvas.getContext('2d');
+
+    let currentColor = '#ff0044';
+    let prevX = 0, prevY = 0;
+
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.dataset.color === 'CLEAR') {
+          pCtx.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+        } else {
+          document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentColor = btn.dataset.color;
+        }
+      });
+    });
+
+    function onResults(results) {
+      ctx.save();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(paintCanvas, 0, 0, canvas.width, canvas.height);
+
+      if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+        const lm = results.multiHandLandmarks[0];
+        const ix = lm[8].x * canvas.width;
+        const iy = lm[8].y * canvas.height;
+        const mx = lm[12].x * canvas.width;
+        const my = lm[12].y * canvas.height;
+
+        const indexUp = lm[8].y < lm[6].y;
+        const middleUp = lm[12].y < lm[10].y;
+        const ringUp = lm[16].y < lm[14].y;
+        const pinkyUp = lm[20].y < lm[18].y;
+
+        // 1. Eraser Mode (4 fingers up)
+        if (indexUp && middleUp && ringUp && pinkyUp) {
+          pCtx.clearRect(ix - 30, iy - 30, 60, 60);
+          ctx.strokeStyle = '#fff';
+          ctx.strokeRect(ix - 30, iy - 30, 60, 60);
+          prevX = 0; prevY = 0;
+        }
+        // 2. Hover / Select Mode (Index + Middle)
+        else if (indexUp && middleUp && !ringUp && !pinkyUp) {
+          prevX = 0; prevY = 0;
+          ctx.beginPath();
+          ctx.arc(ix, iy, 10, 0, 2 * Math.PI);
+          ctx.fillStyle = currentColor;
+          ctx.fill();
+
+          if (iy < 60) {
+            const el = document.elementFromPoint(canvas.getBoundingClientRect().right - (ix * (canvas.getBoundingClientRect().width / 960)), canvas.getBoundingClientRect().top + iy);
+            if (el && el.classList.contains('color-btn')) el.click();
+          }
+        }
+        // 3. Draw Mode (Index only)
+        else if (indexUp && !middleUp && !ringUp && !pinkyUp) {
+          ctx.beginPath();
+          ctx.arc(ix, iy, 6, 0, 2 * Math.PI);
+          ctx.fillStyle = currentColor;
+          ctx.fill();
+
+          if (iy > 60) {
+            if (prevX !== 0 && prevY !== 0) {
+              pCtx.strokeStyle = currentColor;
+              pCtx.lineWidth = 6;
+              pCtx.lineCap = 'round';
+              pCtx.beginPath();
+              pCtx.moveTo(prevX, prevY);
+              pCtx.lineTo(ix, iy);
+              pCtx.stroke();
+            }
+            prevX = ix; prevY = iy;
+          }
+        } else {
+          prevX = 0; prevY = 0;
+        }
+      } else {
+        prevX = 0; prevY = 0;
+      }
+      ctx.restore();
+    }
+
+    const hands = new Hands({locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`});
+    hands.setOptions({maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.7, minTrackingConfidence: 0.7});
+    hands.onResults(onResults);
+
+    const camera = new Camera(video, {
+      onFrame: async () => { await hands.send({image: video}); },
+      width: 960,
+      height: 540
+    });
+    camera.start();
+  </script>
+</body>
+</html>
